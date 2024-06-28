@@ -13,7 +13,7 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-full">
           <Brand />
           <div className="flex items-center gap-3">
-            <NavMenu className="mr-8 hidden md:block" />
+            <NavMenu className="mr-8 hidden md:flex" />
             <UserButton />
             <Sidebar />
           </div>
