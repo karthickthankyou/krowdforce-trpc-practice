@@ -24,7 +24,7 @@ export default function Home() {
   const { data, isError, isLoading, error } = trpcClient.users.useQuery()
 
   return (
-    <main className="flex justify-center mt-12 gap-2">
+    <main className="flex flex-col md:flex-row justify-center items-center md:items-stretch mt-12 gap-2">
       <HeroCard
         {...employerData}
         classname=" skew-y-0 hover:skew-y-6 origin-top-right"

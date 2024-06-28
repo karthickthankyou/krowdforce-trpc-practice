@@ -7,16 +7,18 @@ export interface IBrandProps {}
 
 export const Brand = () => {
   return (
-    <div>
+    <div className="text-center">
       <Link
         href="/"
         className={cn(
-          'hover:underline font-semibold underline-offset-4 text-primary-500',
+          'hover:underline font-semibold underline-offset-4 text-primary-500 text-xl',
         )}
       >
         Krowdforce
       </Link>
-      <DeveloperInfo />
+      <div className="flex items-center gap-1 text-xs text-gray-600">
+        By Soma & Karthick Ragavendran
+      </div>
     </div>
   )
 }

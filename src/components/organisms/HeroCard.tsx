@@ -26,7 +26,7 @@ export const HeroCard: React.FC<HeroCardProps> = ({
   return (
     <div
       className={cn(
-        'relative w-96 rounded overflow-hidden hover:bg-gray-900 bg-black shadow-lg group hover:shadow-lg transition-all duration-1000 p-6',
+        'relative max-w-96 w-full rounded overflow-hidden hover:bg-gray-900 bg-black shadow-lg group hover:shadow-lg transition-all duration-1000 p-6',
         classname,
       )}
     >
