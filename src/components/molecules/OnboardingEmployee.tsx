@@ -1,3 +1,4 @@
+'use client'
 import {
   FormProviderEmployeeOnboarding,
   FormTypeEmployeeOnboarding,
@@ -6,9 +7,8 @@ import { trpcClient } from '@/trpc/clients/client'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { Map } from '@/components/organisms/Map/Map'
-import { Marker } from '@/components/organisms/Map/MapMarker'
+import { MapMarker } from '@/components/organisms/Map/MapMarker'
 import { useFormContext, useWatch } from 'react-hook-form'
-import { UserIcon } from 'lucide-react'
 import { CenterOfMap, DefaultZoomControls } from '../organisms/Map/ZoomControls'
 import { Panel } from '../organisms/Map/Panel'
 import { Form } from '../atoms/Form'
@@ -17,7 +17,6 @@ import { Input } from '../atoms/Input'
 import { TextArea } from '../atoms/TextArea'
 import { Button } from '../atoms/button'
 import { PageTitle } from '../atoms/Typography'
-import { useRouter } from 'next/navigation'
 
 const OnboardingEmployeeContent = () => {
   const queryClient = useQueryClient()
@@ -31,9 +30,12 @@ const OnboardingEmployeeContent = () => {
     formState: { errors },
   } = useFormContext<FormTypeEmployeeOnboarding>()
 
+  const { address } = useWatch<FormTypeEmployeeOnboarding>()
+
   const { isLoading, data, error, mutateAsync } =
     trpcClient.employees.onboarding.useMutation({
       onSuccess() {
+        reset()
         const queryKey = getQueryKey(trpcClient.employees.me)
         queryClient.invalidateQueries(queryKey)
       },
@@ -70,7 +72,13 @@ const OnboardingEmployeeContent = () => {
             }}
             style={{ height: '50vh', width: '100%' }}
           >
-            <MapMarker />
+            <MapMarker
+              address={{ lat: address?.lat || 0, lng: address?.lng || 0 }}
+              onChange={({ lat, lng }) => {
+                setValue('address.lat', lat)
+                setValue('address.lng', lng)
+              }}
+            />
             <Panel variants={{ position: 'left-top' }}>
               <DefaultZoomControls>
                 <CenterOfMap
@@ -90,27 +98,6 @@ const OnboardingEmployeeContent = () => {
         </Button>
       </Form>
     </div>
-  )
-}
-
-const MapMarker = () => {
-  const { address } = useWatch<FormTypeEmployeeOnboarding>()
-  const { setValue } = useFormContext<FormTypeEmployeeOnboarding>()
-
-  return (
-    <Marker
-      pitchAlignment="auto"
-      longitude={address?.lng || 0}
-      latitude={address?.lat || 0}
-      draggable
-      onDragEnd={({ lngLat }) => {
-        const { lat, lng } = lngLat
-        setValue('address.lat', lat || 0)
-        setValue('address.lng', lng || 0)
-      }}
-    >
-      <UserIcon />
-    </Marker>
   )
 }
 

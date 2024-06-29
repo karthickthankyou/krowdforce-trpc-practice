@@ -2,12 +2,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 import { ReactNode } from 'react'
-
-export const schemaCreateAddress = z.object({
-  lat: z.number(),
-  lng: z.number(),
-  address: z.string().min(1, 'Please enter the address'),
-})
+import { schemaCreateAddress } from './address'
 
 export const schemaEmployerOnboarding = z.object({
   address: schemaCreateAddress,

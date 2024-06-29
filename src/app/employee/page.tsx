@@ -1,4 +1,3 @@
-'use client'
 import { IsEmployee } from '@/components/molecules/IsEmployee'
 import { SearchJobs } from '@/components/templates/SearchJobs'
 

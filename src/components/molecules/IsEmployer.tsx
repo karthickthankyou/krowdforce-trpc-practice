@@ -1,13 +1,21 @@
 'use client'
 import { trpcClient } from '@/trpc/clients/client'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
+import { OnboardingEmployer } from './OnboardingEmployer'
+import { getQueryKey } from '@trpc/react-query'
+import { LoaderPanel } from './Loader'
 
 export const IsEmployer = ({ children }: { children: ReactNode }) => {
-  const { data, isLoading } = trpcClient.employers.me.useQuery()
+  const { data, isLoading, isFetched, isError } =
+    trpcClient.employers.me.useQuery()
 
-  if (data?.id) {
-    return <>{children}</>
+  if (isLoading) {
+    return <LoaderPanel />
   }
 
-  return <div>On boarding...</div>
+  if (isFetched && !data) {
+    return <OnboardingEmployer />
+  }
+
+  return <>{children}</>
 }

@@ -10,7 +10,7 @@ export interface INavbarProps {}
 export const Navbar: React.FC<INavbarProps> = () => {
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/60 backdrop-blur backdrop-filter">
-      <Container className="h-12">
+      <Container className="h-16">
         <div className="flex items-center justify-between h-full relative">
           <div className="absolute right-0 flex items-center gap-3">
             <UserButton />

@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
 import { ReactNode } from 'react'
-import { schemaCreateAddress } from './employerOnboarding'
+import { schemaCreateAddress } from './address'
 
 export const schemaEmployeeOnboarding = z.object({
   address: schemaCreateAddress,

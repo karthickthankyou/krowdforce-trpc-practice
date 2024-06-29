@@ -1,6 +1,6 @@
 'use client'
 import { trpcClient } from '@/trpc/clients/client'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { LngLatBounds, useMap } from 'react-map-gl'
 import { Marker } from './Map/MapMarker'
 import { Panel } from './Map/Panel'
@@ -9,7 +9,11 @@ import { PageTitle, TextDescription } from '../atoms/Typography'
 export const DisplayJobs = () => {
   const { current: map } = useMap()
 
-  const bounds = useMemo(() => map?.getBounds(), [map])
+  const [bounds, setBounds] = useState<LngLatBounds>()
+  useEffect(() => {
+    const bounds = map?.getBounds()
+    setBounds(bounds)
+  }, [map])
 
   const locationFilter = useMemo(
     () => ({
@@ -20,8 +24,10 @@ export const DisplayJobs = () => {
     }),
     [bounds],
   )
-  const { data, refetch } =
-    trpcClient.employees.searchJobs.useQuery(locationFilter)
+
+  console.log('locationFilter ', locationFilter, bounds)
+
+  const { data } = trpcClient.employees.searchJobs.useQuery(locationFilter)
 
   console.log('data', data)
 
