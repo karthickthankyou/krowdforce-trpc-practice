@@ -6,6 +6,7 @@ import { TRPCReactProvider } from '@/trpc/clients/client'
 import { Container } from '@/components/atoms/container'
 import { Navbar } from '@/components/organisms/Navbar'
 import { Toaster } from '@/components/molecules/Toaster/Toaster'
+import { cn } from '@/lib/utils'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +24,7 @@ export default function RootLayout({
     <ClerkProvider>
       <TRPCReactProvider>
         <html lang="en">
-          <body className={inter.className}>
+          <body className={cn(inter.className, 'bg-gray-100')}>
             <Navbar />
             <Container>{children}</Container>
             <Toaster />

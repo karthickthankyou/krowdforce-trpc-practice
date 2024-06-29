@@ -1,3 +1,11 @@
+'use client'
+import { IsEmployee } from '@/components/molecules/IsEmployee'
+import { SearchJobs } from '@/components/templates/SearchJobs'
+
 export default function Page() {
-  return <div>Hello employee</div>
+  return (
+    <IsEmployee>
+      <SearchJobs />
+    </IsEmployee>
+  )
 }

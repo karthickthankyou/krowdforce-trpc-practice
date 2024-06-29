@@ -7,7 +7,7 @@ import { getUrl } from './shared'
 
 export const trpcClient = createTRPCReact<AppRouter>()
 
-export function TRPCReactProvider(props: { children: React.ReactNode }) {
+export function TRPCReactProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient())
   const [trpc] = useState(() =>
     trpcClient.createClient({
@@ -18,7 +18,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <trpcClient.Provider client={trpc} queryClient={queryClient}>
-        {props.children}
+        {children}
       </trpcClient.Provider>
     </QueryClientProvider>
   )

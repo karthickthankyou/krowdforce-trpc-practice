@@ -1,3 +1,5 @@
+import { IsEmployer } from '@/components/molecules/IsEmployer'
+
 export default function Page() {
-  return <div>Hello employer</div>
+  return <IsEmployer>Hello employer</IsEmployer>
 }

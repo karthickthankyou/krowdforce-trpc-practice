@@ -1,7 +1,4 @@
-// components/HeroCard.tsx
-
 import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/lib/variants'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -11,7 +8,6 @@ interface HeroCardProps {
   description: string
   image: string
   link: string
-  linkText: string
   classname?: string
 }
 
@@ -20,15 +16,15 @@ export const HeroCard: React.FC<HeroCardProps> = ({
   description,
   image,
   link,
-  linkText,
   classname,
 }) => {
   return (
-    <div
+    <Link
       className={cn(
         'relative max-w-96 w-full rounded overflow-hidden hover:bg-gray-900 bg-black shadow-lg group hover:shadow-lg transition-all duration-1000 p-6',
         classname,
       )}
+      href={link}
     >
       <Image
         src={image}
@@ -43,10 +39,7 @@ export const HeroCard: React.FC<HeroCardProps> = ({
         <p className="mt-2 mb-4 font-light text-sm text-gray-300">
           {description}
         </p>
-        <Link href={link} className={buttonVariants({ variant: 'default' })}>
-          {linkText}
-        </Link>
       </div>
-    </div>
+    </Link>
   )
 }

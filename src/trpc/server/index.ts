@@ -2,6 +2,7 @@ import { Role } from '@/util/types'
 import { TRPCError, initTRPC } from '@trpc/server'
 import { authorizeUser } from './util'
 import { auth } from '@clerk/nextjs/server'
+import { prisma } from '@/db'
 
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   const session = auth()
@@ -16,6 +17,7 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
 const t = initTRPC.context<typeof createTRPCContext>().create()
 
 export const createTRPCRouter = t.router
+
 export const publicProcedure = t.procedure
 
 export const protectedProcedure = (...roles: Role[]) =>
