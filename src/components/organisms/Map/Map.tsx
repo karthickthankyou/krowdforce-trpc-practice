@@ -24,7 +24,7 @@ export const Map = ({
       style={style}
       scrollZoom={false}
       doubleClickZoom={false}
-      initialViewState={{ latitude: 20, longitude: 78, zoom: 10 }}
+      initialViewState={{ latitude: 13, longitude: 80, zoom: 9 }}
     >
       <StyleMap />
       {props.children}

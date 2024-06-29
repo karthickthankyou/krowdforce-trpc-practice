@@ -1,15 +1,19 @@
 'use client'
 import { trpcClient } from '@/trpc/clients/client'
 import { useMemo } from 'react'
-import { useMap } from 'react-map-gl'
 import { Marker } from './Map/MapMarker'
 import { Panel } from './Map/Panel'
-import { PageTitle, TextDescription } from '../atoms/Typography'
-
+import { useGetBounds } from '@/util/hooks/map'
+import { Loader } from '../molecules/Loader'
+import { LocateIcon, MapPinIcon } from 'lucide-react'
+import {
+  IconMapPin,
+  IconMapPin2,
+  IconMapPinFilled,
+  IconPinned,
+} from '@tabler/icons-react'
 export const DisplayCandidates = () => {
-  const { current: map } = useMap()
-
-  const bounds = useMemo(() => map?.getBounds(), [map])
+  const bounds = useGetBounds()
 
   const locationFilter = useMemo(
     () => ({
@@ -21,11 +25,8 @@ export const DisplayCandidates = () => {
     [bounds],
   )
 
-  console.log('locationFilter ', locationFilter)
-  const { data } =
+  const { data, isLoading } =
     trpcClient.employers.searchCandidates.useQuery(locationFilter)
-
-  console.log('data', data)
 
   if (data?.length === 0) {
     return (
@@ -39,12 +40,20 @@ export const DisplayCandidates = () => {
 
   return (
     <>
+      {isLoading ? (
+        <Panel variants={{ position: 'center-center' }}>
+          <Loader />
+        </Panel>
+      ) : null}
       {data?.map((candidate) => (
         <Marker
           key={candidate.id}
           latitude={candidate.address.lat}
           longitude={candidate.address.lng}
-        />
+          anchor="bottom"
+        >
+          <IconMapPinFilled />
+        </Marker>
       ))}
     </>
   )

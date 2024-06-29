@@ -1,19 +1,15 @@
 'use client'
 import { trpcClient } from '@/trpc/clients/client'
-import { useEffect, useMemo, useState } from 'react'
-import { LngLatBounds, useMap } from 'react-map-gl'
+import { useMemo } from 'react'
 import { Marker } from './Map/MapMarker'
 import { Panel } from './Map/Panel'
 import { PageTitle, TextDescription } from '../atoms/Typography'
+import { useGetBounds } from '@/util/hooks/map'
+import { Loader } from '../molecules/Loader'
+import { LocateIcon, MapPinIcon } from 'lucide-react'
 
 export const DisplayJobs = () => {
-  const { current: map } = useMap()
-
-  const [bounds, setBounds] = useState<LngLatBounds>()
-  useEffect(() => {
-    const bounds = map?.getBounds()
-    setBounds(bounds)
-  }, [map])
+  const bounds = useGetBounds()
 
   const locationFilter = useMemo(
     () => ({
@@ -25,11 +21,16 @@ export const DisplayJobs = () => {
     [bounds],
   )
 
-  console.log('locationFilter ', locationFilter, bounds)
+  const { data, isLoading } =
+    trpcClient.employees.searchJobs.useQuery(locationFilter)
 
-  const { data } = trpcClient.employees.searchJobs.useQuery(locationFilter)
-
-  console.log('data', data)
+  if (isLoading) {
+    return (
+      <Panel variants={{ position: 'center-center' }}>
+        <Loader />
+      </Panel>
+    )
+  }
 
   if (data?.length === 0) {
     return (
@@ -53,7 +54,9 @@ export const DisplayJobs = () => {
           key={job.id}
           latitude={job.Employer.address.lat}
           longitude={job.Employer.address.lng}
-        />
+        >
+          <MapPinIcon />
+        </Marker>
       ))}
     </>
   )
