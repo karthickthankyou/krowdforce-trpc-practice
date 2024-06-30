@@ -4,7 +4,7 @@ import { Popup, PopupProps } from 'react-map-gl'
 const MapPopup = ({ latitude, longitude, children }: PopupProps) => {
   return (
     <Popup latitude={latitude} longitude={longitude} closeButton={false}>
-      <div className="grid grid-cols-1 grid-rows-1">
+      <div className="grid grid-cols-1 grid-rows-1 rounded">
         <div className="col-start-1 row-start-1 ">{children}</div>
         <div className="flex justify-end col-start-1 row-start-1 p-2 items-top">
           <button

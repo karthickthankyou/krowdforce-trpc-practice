@@ -21,8 +21,9 @@ model User {
     name      String
     image     String?
 
-    Employer Employer?
-    Employee Employee?
+    Employer    Employer?
+    Employee    Employee?
+    Application Application[]
 }
 
 model Employer {
@@ -46,9 +47,10 @@ model Employee {
 
     User User @relation(fields: [id], references: [id])
 
-    addressId Int
-    address   Address @relation(fields: [addressId], references: [id])
-    skills    Skill[]
+    addressId   Int
+    address     Address @relation(fields: [addressId], references: [id])
+    skills      Skill[]
+    contactInfo String?
 }
 
 model Address {
@@ -74,12 +76,27 @@ model Job {
     contactInfo String?
     skills      Skill[]
 
-    Employer   Employer @relation(fields: [employerId], references: [id])
-    employerId String
+    Employer    Employer      @relation(fields: [employerId], references: [id])
+    employerId  String
+    Application Application[]
 }
 
 model Skill {
     name      String     @id
     employees Employee[]
     jobs      Job[]
+}
+
+model Application {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    userId String
+    jobId  Int
+
+    User User @relation(fields: [userId], references: [id])
+    Job  Job  @relation(fields: [jobId], references: [id])
+
+    @@unique([userId, jobId])
 }

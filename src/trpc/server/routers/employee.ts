@@ -1,6 +1,7 @@
 import { schemaEmployeeOnboarding } from '@/forms/employeeOnboarding'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '..'
 import { addressWhere } from './dtos/common.input'
+import { z } from 'zod'
 
 export const employeeRoutes = createTRPCRouter({
   me: protectedProcedure().query(async ({ ctx }) => {
@@ -47,4 +48,11 @@ export const employeeRoutes = createTRPCRouter({
       include: { Employer: { include: { address: true } } },
     })
   }),
+  apply: protectedProcedure()
+    .input(z.object({ jobId: z.number() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db.application.create({
+        data: { jobId: input.jobId, userId: ctx.userId },
+      })
+    }),
 })

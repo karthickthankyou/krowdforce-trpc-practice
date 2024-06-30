@@ -6,6 +6,7 @@ import { schemaCreateAddress } from './address'
 
 export const schemaEmployeeOnboarding = z.object({
   address: schemaCreateAddress,
+  contactInfo: z.string().min(1, 'Please enter the skills'),
   skills: z.string().min(1, 'Please enter the skills'),
 })
 

@@ -11,7 +11,7 @@ export const Brand = () => {
       <Link
         href="/"
         className={cn(
-          'hover:underline font-semibold underline-offset-4 text-primary-500 text-xl',
+          'hover:underline font-black underline-offset-4 text-primary-500 text-xl uppercase tracking-tight bg-clip-text bg-gradient-to-tr from-primary to-transparent via-black text-transparent',
         )}
       >
         Krowdforce

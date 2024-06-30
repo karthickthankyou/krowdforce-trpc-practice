@@ -63,6 +63,13 @@ const OnboardingEmployeeContent = () => {
             rows={3}
           />
         </Label>
+        <Label title="Contact" error={errors.contactInfo?.message}>
+          <TextArea
+            placeholder="+(555) 555 5555"
+            {...register('contactInfo')}
+            rows={3}
+          />
+        </Label>
         <div className="max-w-96 w-full rounded overflow-hidden">
           <Map
             initialViewState={{

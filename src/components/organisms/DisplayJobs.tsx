@@ -1,12 +1,13 @@
 'use client'
 import { trpcClient } from '@/trpc/clients/client'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Marker } from './Map/MapMarker'
 import { Panel } from './Map/Panel'
 import { PageTitle, TextDescription } from '../atoms/Typography'
 import { useGetBounds } from '@/util/hooks/map'
 import { Loader } from '../molecules/Loader'
-import { LocateIcon, MapPinIcon } from 'lucide-react'
+import { IconMapPinFilled } from '@tabler/icons-react'
+import { SimpleDialog } from '../molecules/SimpleDialog'
 
 export const DisplayJobs = () => {
   const bounds = useGetBounds()
@@ -23,6 +24,8 @@ export const DisplayJobs = () => {
 
   const { data, isLoading } =
     trpcClient.employees.searchJobs.useQuery(locationFilter)
+
+  const [open, setOpen] = useState(false)
 
   if (isLoading) {
     return (
@@ -50,13 +53,23 @@ export const DisplayJobs = () => {
   return (
     <>
       {data?.map((job) => (
-        <Marker
-          key={job.id}
-          latitude={job.Employer.address.lat}
-          longitude={job.Employer.address.lng}
-        >
-          <MapPinIcon />
-        </Marker>
+        <>
+          <Marker
+            key={job.id}
+            latitude={job.Employer.address.lat}
+            longitude={job.Employer.address.lng}
+            onClick={() => {
+              setOpen(true)
+            }}
+          >
+            <IconMapPinFilled className="cursor-pointer" />
+          </Marker>
+          <SimpleDialog setOpen={setOpen} open={open} title={job.title || ''}>
+            <div>
+              <p>{job.description}</p>
+            </div>
+          </SimpleDialog>
+        </>
       ))}
     </>
   )
